@@ -24,33 +24,40 @@ else
 fi
 unset color_prompt
 
-# Limit 'cd' autocompletion to directories in the current working directory only
-unset CDPATH
-
-# Custom completion function for 'cd' to avoid adding a space after completion
-_cd_only_current_dir() {
-    local cur="${COMP_WORDS[COMP_CWORD]}"
-    local directories
-    directories=$(compgen -d -- "$cur")
-
-    # If a directory is found, don't append a space automatically
-    COMPREPLY=( $directories )
-}
-
-# Apply the custom completion function to 'cd'
-complete -F _cd_only_current_dir cdc
 
 # Some more aliases
 alias ll="ls -lhF"
 alias la="ls -aF"
 alias lla="ls -lAhF"
 
-# User definitions
-if [ ".bash_profile" ]; then
-    . ~/.bash_profile
+
+# History configuration
+HISTCONTROL=ignoreboth        # ignore duplicates and lines starting with space
+shopt -s histappend           # append to history file instead of overwriting
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Update window size after each command
+shopt -s checkwinsize
+
+# Clear CDPATH to avoid unexpected behavior with 'cd'
+unset CDPATH
+
+# Load user-defined aliases if present
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
 
-# OhMyBash
-if [ ".omb_profile" ]; then
-    . ~/.omb_profile
+
+# Enable bash completion if available
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
+
+# Load Oh My Bash if present
+[ -f ~/.omb_profile ] && . ~/.omb_profile
+
