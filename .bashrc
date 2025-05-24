@@ -52,9 +52,6 @@ shopt -s checkwinsize
 # Clear CDPATH to avoid unexpected behavior with 'cd'
 unset CDPATH
 
-# Load Oh My Bash if present
-[ -f ~/.omb_profile ] && . ~/.omb_profile
-
 # Load user-defined aliases if present
 if [ -f ~/.bash_profile ]; then
     . ~/.bash_profile
