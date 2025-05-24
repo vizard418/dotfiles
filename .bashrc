@@ -18,7 +18,8 @@ case "$TERM" in
 esac
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
+    PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 " (%s)")'
+    PS1='[\[\e[32m\]\u@\h\[\e[0m\]]:\[\e[34m\]\w\n\[\e[0m\]${PS1_CMD1}\$ '
 else
     PS1='\u@\h:\w\$ '
 fi
